@@ -1,5 +1,41 @@
 const hand =["rock","paper","scissor"]
+let winner
 
+const rockbtn = document.getElementById("rock")
+const paperbtn = document.getElementById("paper")
+const scissorbtn = document.getElementById("scissor")
+
+const results = document.querySelector(".results")
+
+
+const wnr = document.createElement("p")
+const scoreele = document.createElement("p")
+const finalwnnr = document.createElement("p")
+
+
+
+let humanScore = 0
+let computerScore = 0
+
+let humanChoice = []
+
+rockbtn.addEventListener("click", function (){
+    humanChoice=hand[0]
+    playGame()
+    lescore()
+})
+
+paperbtn.addEventListener("click", function(){
+    humanChoice=hand[1]
+    playGame()
+    lescore()
+})
+
+scissorbtn.addEventListener("click", function(){
+    humanChoice=hand[2]
+    playGame()
+    lescore()
+})
 
 
 function getComputerChoice(){
@@ -10,51 +46,33 @@ function getComputerChoice(){
 }
 
 
-
-function getHumanChoice(){
-    let choicePrompt = prompt("choose your hand\n1:rock\n2:paper\n3:scissor")
-    let humanChoice
-
-    if (choicePrompt== 1){
-        humanChoice=hand[0]
-    }
-    else if (choicePrompt== 2){
-        humanChoice=hand[1]
-    }
-    else if (choicePrompt== 3){
-        humanChoice=hand[2]
-    }
-    else {
-        alert("Error pls enter a number between 1 and 3")
-    }
-    return humanChoice
-}
-
-
-
 function playGame(){ 
 
-    let humanScore = 0
-    let computerScore = 0
-    let winner
+    
+
+    //compares hands, prints the winner and returns a winner value
     function playRound(human,computer){
         
 
         if(human==hand[0] && computer==hand[1] || human==hand[2] && computer==hand[0] || human==hand[1] && computer==hand[2]){
-    
-            console.log("computer: "+computer +"\nyou: "+human+"\n computer wins!")
+            wnr.style.whiteSpace="pre"
+            wnr.textContent="computer: "+computer +"\nyou: "+human+"\n"
+            results.appendChild(wnr)
             winner= "computer"
             return winner
     
         }
         else if (computer==hand[0] && human==hand[1]|| computer==hand[2] && human==hand[0] || computer==hand[1] && human==hand[2]){
-    
-            console.log("computer: "+computer +"\nyou: "+human+"\n you win!")
+            wnr.style.whiteSpace="pre"
+            wnr.textContent="computer: "+computer +"\nyou: "+human+"\n"
+            results.appendChild(wnr)
             winner= "human"
             return winner
         }
         else{
-            console.log("draw!\ncomputer: "+computer+"\nyou: "+human)
+            wnr.style.whiteSpace="pre"
+            wnr.textContent="draw!\ncomputer: "+computer+"\nyou: "+human
+            results.appendChild(wnr)
             winner= "draw"
             return winner
         }
@@ -63,24 +81,47 @@ function playGame(){
     }
 
 
-    for (let i=0 ;i<5 ;i++){
-
-    let humanChoice = getHumanChoice()
     let computerChoice = getComputerChoice()
     playRound(humanChoice,computerChoice)
+
+    return winner
+}
+
+function lescore(){
     if(winner === "human" ){
         humanScore++
     }
     else if(winner === "computer"){
         computerScore++
     }
+
+let totalscore = `your score: ${humanScore}/5 \ncomputer score: ${computerScore}/5`
+
+
+
+scoreele.style.whiteSpace= "pre"
+scoreele.textContent= totalscore
+results.appendChild(scoreele)
+winnerloser()
+
 }
-    let totalscore = `your score: ${humanScore} \ncomputer score: ${computerScore}`
-    console.log(totalscore)
+
+function winnerloser(){
+    if(humanScore==5){
+        humanScore=0
+        computerScore=0
+        finalwnnr.textContent="You win!"
+        results.appendChild(finalwnnr)
+    }
+    else if(computerScore==5){
+        humanScore=0
+        computerScore=0
+        finalwnnr.textContent="computer wins!"
+        results.appendChild(finalwnnr)
+    }
+    else{
+        results.removeChild(finalwnnr)
+    }
+    
 }
-
-
-playGame()
-
-
 
